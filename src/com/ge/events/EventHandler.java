@@ -1,8 +1,10 @@
 package com.ge.events;
 
+import com.ge.proto.Details;
 import static com.ge.proto.Details.Speed.*;
 import com.ge.proto.Driver;
 import com.ge.proto.Light.Color;
+import com.ge.proto.Mentality;
 import com.ge.proto.Road;
 import com.ge.road.Location;
 import java.util.Map;
@@ -32,8 +34,8 @@ public class EventHandler {
         
         makeDecision(this.road.getDrivers(), this.road);
         
-        this.road.getDrivers().forEach((l, d) -> {
-            l.incrementValue(d.getVehicle().getSpeed());
+        this.road.getDrivers().forEach((location, driver) -> {
+            location.incrementValue(driver.getVehicle().getSpeed());
         });
         
         this.road.getLights().forEach((location, light) -> {
@@ -48,11 +50,11 @@ public class EventHandler {
 
     private void makeDecision(Map<Location, Driver> drivers, Road road) {
         
-        drivers.forEach((light, driver) -> {
+        drivers.forEach((location, driver) -> {
             
-            if(road.getLights().get(light) != null) {
+            if(road.getLights().get(location) != null) {
                 
-                Color lightColor = road.getLights().get(light).getColor();
+                Color lightColor = road.getLights().get(location).getColor();
                 
                 switch (lightColor) {
                     case Red:
@@ -63,8 +65,32 @@ public class EventHandler {
                                 driver.getVehicle().getSpeed().slowDown());
                         break;
                     case Green:
+                        driver.getVehicle().setSpeed(
+                                driver.getVehicle().getSpeed().speedUp());
                         break;
-                }     
+                }
+            } else if(road.getDrivers().get(location) != null) {
+                
+                Driver anotherDriver = 
+                        road.getDrivers().get(location);
+                Mentality.Bravery howBrave = 
+                        anotherDriver.getBravery();
+                Mentality.Honor howHonorable = 
+                        anotherDriver.getHonor();
+                Details.Priority whatPriority = 
+                        anotherDriver.getVehicle().getPriority();
+                
+                if(driver.getBravery().compareTo(howBrave) > 0) {
+                    driver.getVehicle().getSpeed().speedUp();
+                    anotherDriver.getVehicle().getSpeed().slowDown();
+                } else if((driver.getHonor().compareTo(howHonorable) > 0) &&
+                        (driver.getVehicle().getPriority().compareTo(whatPriority) < 0)) {
+                    driver.getVehicle().getSpeed().slowDown();
+                    anotherDriver.getVehicle().getSpeed().speedUp();
+                } else {
+                    driver.getVehicle().getSpeed().slowDown();
+                    anotherDriver.getVehicle().getSpeed().slowDown();
+                }
             }
         });
     }

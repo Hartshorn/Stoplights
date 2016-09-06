@@ -9,7 +9,7 @@ public class Stoplight extends Light {
     private Color color;
     
     public Stoplight() {
-        this.color = Color.Green;
+        this.color = Color.randomColor();
         super.timer = 0.0;
     }
     

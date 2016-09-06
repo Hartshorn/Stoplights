@@ -32,6 +32,8 @@ public class Location {
             default:
                 break;
         }
+        if (this.value > 100.00) {
+            this.value = 0.0;
+        }
     }
-
 }

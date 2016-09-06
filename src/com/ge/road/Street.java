@@ -47,10 +47,10 @@ public class Street extends Road {
     }
 
     private void showDriver(Location loc, Driver d) {
-        System.out.println("At " + loc.getValue() + " is a " + d);
+        System.out.println("At " + loc.getValue().intValue() + " is a " + d);
     }
 
     private void showLights(Location loc, Light l) {
-        System.out.println("At " + loc.getValue() + " is a " + l.getColor() + " light");
+        System.out.println("At " + loc.getValue().intValue() + " is a " + l.getColor() + " light");
     }
 }

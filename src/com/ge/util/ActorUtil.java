@@ -15,6 +15,7 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 
 public class ActorUtil {
@@ -103,8 +104,10 @@ public class ActorUtil {
     public static Map<Location, Driver> makeDriverList(int numberOfDrivers) {
         Map<Location, Driver> drivers = new HashMap<>();
         
+        Random random = new Random();
+        
         makeDriverList(numberOfDrivers, true).forEach(
-                d -> drivers.put(new Location(0.0), d));
+                d -> drivers.put(new Location(100 * random.nextDouble()), d));
         
         return drivers;
     }

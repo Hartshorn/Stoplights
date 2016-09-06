@@ -10,10 +10,11 @@ public class StoplightMain {
     public static void main(String[] args) {
 
         EventHandler eventHandler
-                = new EventHandler(new Street(ActorUtil.makeDriverList(1),
+                = new EventHandler(new Street(
+                        ActorUtil.makeDriverList(100),
                         ActorUtil.makeLightList(100.00, Street)));
 
-        eventHandler.tick(10);
+        eventHandler.tick(100);
         
         eventHandler.getRoad().describe();
     }

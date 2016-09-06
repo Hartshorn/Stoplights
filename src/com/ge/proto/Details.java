@@ -53,10 +53,10 @@ public class Details {
                         Slow, 
                         Careful, 
                         Fast, 
-                        Max {
+                        VeryFast {
                             @Override
                             public Speed speedUp() {
-                              return Max;  
+                              return VeryFast;  
                             };
                         };
         
@@ -78,7 +78,7 @@ public class Details {
         } 
     };
     
-    public enum Priority { High, Low;
+    public enum Priority { High, Medium, Low;
     
         private static final List<Priority> VALUES = 
                 Collections.unmodifiableList(Arrays.asList(values()));
