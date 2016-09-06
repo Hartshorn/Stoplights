@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class Mentality {
     
-    public enum Mood { Happy, Sad, Indifferent;
+    public enum Mood { Happy, Indifferent, Sad;
     
         private static final List<Mood> VALUES = 
                 Collections.unmodifiableList(Arrays.asList(values()));

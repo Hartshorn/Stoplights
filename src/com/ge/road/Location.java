@@ -5,6 +5,7 @@ import com.ge.proto.Details.Speed;
 public class Location {
 
     private Double value;
+    private Double loop = 0.0;
 
     public Location(Double value) {
         this.value = value;
@@ -12,6 +13,10 @@ public class Location {
 
     public Double getValue() {
         return this.value;
+    }
+    
+    public Double getLoopCounter() {
+        return this.loop;
     }
 
     public void incrementValue(Speed speed) {
@@ -32,8 +37,9 @@ public class Location {
             default:
                 break;
         }
-        if (this.value > 100.00) {
-            this.value = 0.0;
+        if (this.value >= 100.00) {
+            this.value = 1.0;
+            this.loop++;
         }
     }
 }

@@ -14,7 +14,7 @@ public class StoplightMain {
                         ActorUtil.makeDriverList(100),
                         ActorUtil.makeLightList(100.00, Street)));
 
-        eventHandler.tick(100);
+        eventHandler.tick(100000);
         
         eventHandler.getRoad().describe();
     }

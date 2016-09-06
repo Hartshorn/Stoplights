@@ -89,7 +89,4 @@ public class Details {
             return VALUES.get(RANDOM.nextInt(SIZE));
         }
     };
-    
-    
-    
 }

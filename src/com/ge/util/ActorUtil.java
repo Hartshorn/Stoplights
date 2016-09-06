@@ -103,11 +103,14 @@ public class ActorUtil {
 
     public static Map<Location, Driver> makeDriverList(int numberOfDrivers) {
         Map<Location, Driver> drivers = new HashMap<>();
-        
         Random random = new Random();
         
-        makeDriverList(numberOfDrivers, true).forEach(
-                d -> drivers.put(new Location(100 * random.nextDouble()), d));
+        makeDriverList(numberOfDrivers, true).forEach(d -> {
+            
+            Double startLoc = 100.00 * random.nextDouble();
+            d.setStartLoc(startLoc);
+            drivers.put(new Location(startLoc + 1.0), d);
+        });
         
         return drivers;
     }

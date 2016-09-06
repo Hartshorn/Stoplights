@@ -1,12 +1,11 @@
 package com.ge.events;
 
-import com.ge.proto.Details;
 import static com.ge.proto.Details.Speed.*;
 import com.ge.proto.Driver;
 import com.ge.proto.Light.Color;
-import com.ge.proto.Mentality;
 import com.ge.proto.Road;
 import com.ge.road.Location;
+import java.util.HashMap;
 import java.util.Map;
 
 public class EventHandler {
@@ -71,27 +70,57 @@ public class EventHandler {
                 }
             } else if(road.getDrivers().get(location) != null) {
                 
-                Driver anotherDriver = 
-                        road.getDrivers().get(location);
-                Mentality.Bravery howBrave = 
-                        anotherDriver.getBravery();
-                Mentality.Honor howHonorable = 
-                        anotherDriver.getHonor();
-                Details.Priority whatPriority = 
-                        anotherDriver.getVehicle().getPriority();
+                Driver otherDriver = road.getDrivers().get(location);
+                Map<Relation,Integer> relations = getDriverRelations(driver, otherDriver);
                 
-                if(driver.getBravery().compareTo(howBrave) > 0) {
+                if(relations.get(Relation.Bravery) > 0) {
+                    
                     driver.getVehicle().getSpeed().speedUp();
-                    anotherDriver.getVehicle().getSpeed().slowDown();
-                } else if((driver.getHonor().compareTo(howHonorable) > 0) &&
-                        (driver.getVehicle().getPriority().compareTo(whatPriority) < 0)) {
+                    otherDriver.getVehicle().getSpeed().slowDown();
+                    
+                } else if((relations.get(Relation.Honor) > 0) && 
+                        (relations.get(Relation.Priority) < 0)) {
+                    
                     driver.getVehicle().getSpeed().slowDown();
-                    anotherDriver.getVehicle().getSpeed().speedUp();
+                    otherDriver.getVehicle().getSpeed().speedUp();
+                    
                 } else {
+                    
                     driver.getVehicle().getSpeed().slowDown();
-                    anotherDriver.getVehicle().getSpeed().slowDown();
+                    otherDriver.getVehicle().getSpeed().slowDown();
                 }
             }
         });
     }
+
+    private Map<Relation, Integer> getDriverRelations(Driver d1, Driver d2) {
+
+        Map<Relation,Integer> relations = new HashMap<>();
+        
+        relations.put(Relation.Bravery, 
+                d1.getBravery()
+                  .compareTo(d2.getBravery()));
+        
+        relations.put(Relation.Honor, 
+                d1.getHonor()
+                  .compareTo(d2.getHonor()));
+        
+        relations.put(Relation.Priority, 
+                d1.getVehicle()
+                  .getPriority()
+                  .compareTo(d2.getVehicle().getPriority()));
+        
+        relations.put(Relation.Mood, 
+                d1.getMood()
+                  .compareTo(d2.getMood()));
+        
+        relations.put(Relation.Size, 
+                d1.getVehicle()
+                  .getSize()
+                  .compareTo(d2.getVehicle().getSize()));
+        
+        return relations;
+    }
+    
+     private enum Relation { Bravery, Honor, Priority, Mood, Size }
 }

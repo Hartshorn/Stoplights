@@ -42,12 +42,19 @@ public class Street extends Road {
     @Override
     public void describe() {
         this.drivers.forEach((loc, d) -> showDriver(loc, d));
-        this.lights.forEach((loc, l) -> showLights(loc, l));
+//        this.lights.forEach((loc, l) -> showLights(loc, l));
                 
     }
 
     private void showDriver(Location loc, Driver d) {
-        System.out.println("At " + loc.getValue().intValue() + " is a " + d);
+        Double delta = loc.getValue() + (100.00 * loc.getLoopCounter()) - d.getStartLoc();
+        
+        System.out.println(
+                "Start: " + d.getStartLoc().intValue() +
+                " Location: " + loc.getValue().intValue() +
+                " Loop Count: " + loc.getLoopCounter().intValue() +
+                " Delta: " + delta.intValue() +
+                "\n\tAt " + loc.getValue().intValue() + " is a " + d + "\n");
     }
 
     private void showLights(Location loc, Light l) {
